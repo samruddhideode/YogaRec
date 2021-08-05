@@ -1,0 +1,63 @@
+  {
+    "Bhujangasasna":
+    {
+      "goal1": 1,
+      "goal2": 0,
+      "goal3": 0,
+      "goal4": 1,
+      "goal5": 1,
+      "goal6": 1,
+      "image": "/static/images/asanas/bhujangasana.jpg"
+    },
+    "Viparita-Karani":
+    {
+      "goal1": 1,
+      "goal2": 1,
+      "goal3": 0,
+      "goal4": 0,
+      "goal5": 0,
+      "goal6": 1,
+      "image": "/static/images/asanas/viparita.jpg"
+    },
+    "SuryaNamaskar":
+    {
+      "goal1": 1,
+      "goal2": 1,
+      "goal3": 1,
+      "goal4": 1,
+      "goal5": 1,
+      "goal6": 1,
+      "image":"/static/images/asanas/suryanamskar.jpg"
+    },
+    "Dhanurasana":
+    {
+      "goal1": 1,
+      "goal2": 0,
+      "goal3": 0,
+      "goal4": 1,
+      "goal5": 0,
+      "goal6": 1,
+      "image":"/static/images/asanas/dhanurasana.jpg"
+    },
+    "Anulom-Vilom":
+    {
+      "goal1": 1,
+      "goal2": 1,
+      "goal3": 1,
+      "goal4": 0,
+      "goal5": 1,
+      "goal6": 0,
+      "image":"/static/images/asanas/anulom.jpg"
+    },
+    "Bhasktrika":
+    {
+      "goal1": 1,
+      "goal2": 0,
+      "goal3": 1,
+      "goal4": 0,
+      "goal5": 1,
+      "goal6": 0,
+      "image":"/static/images/asanas/bhastrika.jpg"
+    }
+  }
+

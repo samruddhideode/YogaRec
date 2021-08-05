@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital@1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/personalPage.css">
+    <title><%= user.name %></title>
+</head>
+<body>
+    <% var goals = goalList %> <!----list of goal names--->
+    
+    <% var arr = Object.keys(user.toJSON()) %> <!--array of keys of user-->
+    <% var asanas = JSON.parse(JSON.stringify(asanas)) %> <!---asanas list and their goals parsable files--->
+    <% var keys = Object.keys(asanas) %> <!---keys i.e. names of asanas----->
+
+    <% var images = [] %>
+    <% for(let i=0; i<keys.length; i++){ %>
+        <% images.push(asanas[keys[i]]['image']) %>
+    <%}%>
+
+    <% var userValues =[] %> <!---user's value of each goal--->
+    <% for(let i=5; i<arr.length-3; i++){ %>
+        <% userValues.push(user[arr[i]]) %>
+    <% } %>
+
+    <% listOflist = [] %> <!--2d array of goals of each asana-->
+    <% for (let i=0; i<goals.length; i++) {%>
+        <% list = [] %>
+        <% for(let j=0; j<goalList.length; j++){ %>
+            <% list.push(asanas[keys[i]][goalList[j]]) %>
+        <% } %>
+        <% listOflist.push(list) %>
+    <% } %>
+
+    <% bestSuitedArray = [] %>
+    <% dot = (a, b) => a.map((x, i) => a[i] * b[i]).reduce((m, n) => m + n); %> <!--function to calculate dot product-->
+    <% for(let i=0; i<listOflist.length; i++){ %>
+        <% bestSuitedArray.push( dot(listOflist[i], userValues)) %>
+    <% } %>
+
+    <div class="container text-center">
+        <h2>Welcome <%=user.name%>!</h2>
+        <div class="for-you">
+            <h4> The Best Asanas for you are </h4>
+        </div>
+        <div class="row">
+        </div>
+
+        <button href="" class="button1" data-toggle="modal" data-target="#UpdateModal">Update my Goals</a>     
+    </div>
+  
+    <!-- Modal -->
+    <div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content text-center" style="padding: 5%;">
+            <form method="post" action="/update">
+                <div class="container">
+                    <label style="display: none;">Name:</label><br>
+                    <input type="text" class="form-control" name="name" value="<%= user.name %>">
+
+                    <label for="phone">Weight Loss</label><br>
+                    <input type="range" min="0" max="10" class="form-control" name="goal1" step="1" value="<%= user.goal1 %>">
+                  
+                    <label for="name">Control Hypertension</label><br>
+                    <input type="range" min="0" max="10" class="form-control" name="goal2" step="1" value="<%= user.goal2 %>">
+                  
+                    <label for="name">Reduce Anxiety</label><br>
+                    <input type="range" min="0" max="10" class="form-control" name="goal3" step="1" value="<%= user.goal3 %>">
+                  
+                    <label for="phone">Control Diabetes</label><br>
+                    <input type="range" min="0" max="10" class="form-control" name="goal4" step="1" value="<%= user.goal4 %>">
+                  
+                    <label for="name">Enhance Lung Function</label><br>
+                    <input type="range" min="0" max="10" class="form-control" name="goal5" step="1" value="<%= user.goal5 %>">
+                  
+                    <label for="name">Control PCOD</label><br>
+                    <input type="range" min="0" max="10" class="form-control" name="goal6" step="1" value="<%= user.goal6 %>">
+                </div>    
+                <button href="" class="button2" onClick="window.location.reload();">Update</button>
+            </form>
+        </div>
+        </div>
+    </div>
+
+
+    <!--JS-->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script>
+        //--------------------------------------------------------
+        var i;
+        let goals = '<%=goals%>'.split(",")
+        let imageList= '<%=images%>'.split(",")
+        let bestSuitedArray= '<%= bestSuitedArray %>'.split(',')
+        let keys = '<%= keys %>'.split(',') // Asana names
+
+        //---------------------------------------------------------
+        //get indices of 1st 2nd 3rd largest elements
+        let best = [] //top 3 asanas
+        let bestArray = [] //sorted array descending
+
+        //conv bestSuited Array to integers
+        for(i=0; i<bestSuitedArray.length; i++)
+        {
+        bestSuitedArray.push(parseInt(bestSuitedArray[i])) //append to end
+        bestSuitedArray.shift() //remove from front
+        }
+
+        bestSuitedArray.forEach(item=> bestArray.push(item))
+        bestArray.sort(function(a, b){return a - b}).reverse();
+        var first = bestArray[0];
+        var second = bestArray[1];
+        var third = bestArray[2];
+
+        var index1 = bestSuitedArray.indexOf(first)
+        best.push(keys[index1])
+        if(second== first){
+            var index2 = bestSuitedArray.indexOf(second, (index1+1))
+        }
+        else{
+            var index2 = bestSuitedArray.indexOf(second)
+        }
+        best.push(keys[index2])
+        if(third == second){
+            var index3 = bestSuitedArray.indexOf(third, (index2+1))
+        }
+        else{
+            var index3 = bestSuitedArray.indexOf(third)
+        }
+        best.push(keys[index3])
+        indices = [index1, index2, index3]
+        //---------------------------------------------------
+        //add a card
+        var ranks = [first, second, third] //score
+        for (i=0; i<3; i++)
+        {
+            let add_card = document.getElementsByClassName("container")[0].getElementsByClassName("row")[0];
+            add_card.innerHTML +='<div class="col-sm-4">'+ 
+                                    '<div class="card">' + 
+                                    '<div class="card-body text-center">' +
+                                        '<h5 class="card-title " > </h5>'+
+                                        '<p class="card-text"> </p>'+
+                                        '<img src="" class="card-img"></img>'
+                                    '</div>'+
+                                    '</div>'+
+                                ' </div>';
+        }
+
+        for(i=0; i<3; i++)
+        {
+            //set the title and text for each card
+            let title = document.getElementsByClassName("container")[0].getElementsByClassName("card")[i].getElementsByClassName("card-title")[0];
+            title.innerHTML = best[i];
+            let body = document.getElementsByClassName("container")[0].getElementsByClassName("card")[i].getElementsByClassName("card-text")[0];
+            body.innerHTML = ' with a matching score of '+ranks[i]
+            //set image attribute 
+            let image = document.getElementsByClassName("container")[0].getElementsByClassName("card")[i].getElementsByClassName("card-img")[0];
+            image.src = imageList[indices[i]]
+        }
+
+    </script>
+</body>
+</html>
