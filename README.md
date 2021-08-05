@@ -30,3 +30,9 @@ I am diagnosed with PCOS. I will rate my goals in the following way:
   ![recommend](https://github.com/samruddhideode/Yogasana_Recommender/blob/master/images/pic3.PNG)
   
   ![update](https://github.com/samruddhideode/Yogasana_Recommender/blob/master/images/pic4.PNG)
+---
+***Tech Stack***
+<li>Node js </li>
+<li>Express </li>
+<li>Mongodb </li>
+<li>EJS, CSS, JS </li>
